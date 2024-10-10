@@ -1,0 +1,27 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    environment:
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./api:/api
+
+  database:
+    container_name: mongo
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - data:/data/db
+volumes:
+  data:
+    driver: local
