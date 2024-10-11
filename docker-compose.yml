@@ -7,10 +7,18 @@ services:
       - MONGO_DATABASE=${MONGO_DATABASE}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
       - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_TEST_DATABASE=${MONGO_TEST_DATABASE}
     ports:
       - "4000:4000"
     volumes:
       - ./api:/api
+    develop:
+      watch:
+        - action: sync
+          path: ./api
+          target: /api
+        - action: rebuild
+          path: api/package.json
 
   database:
     container_name: mongo

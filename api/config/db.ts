@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export default function connectDB() {
+export default async function connectDB() {
   const databaseName =
     process.env.NODE_ENV === "test"
       ? process.env.MONGO_TEST_DATABASE
@@ -8,7 +8,7 @@ export default function connectDB() {
   const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@database:27017/${databaseName}?authSource=admin`;
 
   try {
-    mongoose.connect(url);
+    await mongoose.connect(url);
   } catch (error) {
     console.log(error);
     process.exit(1);
