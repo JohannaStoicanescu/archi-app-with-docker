@@ -11,10 +11,10 @@ export class TimerController {
       const { user_id } = req.params;
       const timer = await this.timerService.getTimer(user_id);
       res.json(timer);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: "An error occurred while getting the timer." });
+    } catch (error: Error | any) {
+      res.status(500).json({
+        message: error.message || "Error while getting the timer.",
+      });
     }
   };
 
@@ -29,10 +29,10 @@ export class TimerController {
       const { user_id, time } = req.body;
       const timer = await this.timerService.addTimer({ user_id, time });
       res.json(timer);
-    } catch (error) {
+    } catch (error: Error | any) {
       res
         .status(500)
-        .json({ message: "An error occurred while adding the timer." });
+        .json({ message: error.message || "Error while adding the timer." });
     }
   };
 }

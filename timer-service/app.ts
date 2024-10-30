@@ -1,8 +1,7 @@
 import express, { Express } from "express";
 
 import connectDB from "./config/db";
-import { timerRouter } from "./features/timer/timer.routes";
-import { userRouter } from "./features/user/user.routes";
+import { timerRouter } from "./timer/timer.routes";
 
 const app: Express = express();
 
@@ -11,6 +10,6 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/api", userRouter, timerRouter);
+app.use("/api", timerRouter);
 
 export default app;
