@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 export default async function connectDB() {
   const databaseName =
     process.env.NODE_ENV === "test"
-      ? process.env.MONGO_TEST_DATABASE
-      : process.env.MONGO_DATABASE;
-  const url = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@database:27017/${databaseName}?authSource=admin`;
+      ? process.env.TIMER_SERVICE_MONGO_TEST_DATABASE
+      : process.env.TIMER_SERVICE_MONGO_DATABASE;
+  const url = `mongodb://${process.env.TIMER_SERVICE_MONGO_USERNAME}:${process.env.TIMER_SERVICE_MONGO_PASSWORD}@database:27017/${databaseName}`;
 
   try {
     await mongoose.connect(url);

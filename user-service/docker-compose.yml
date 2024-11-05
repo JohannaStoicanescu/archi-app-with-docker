@@ -1,0 +1,66 @@
+services:
+  user-service:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - USER_SERVICE_PORT=${USER_SERVICE_PORT}
+      - USER_SERVICE_MONGO_USERNAME=${USER_SERVICE_MONGO_USERNAME}
+      - USER_SERVICE_MONGO_PASSWORD=${USER_SERVICE_MONGO_PASSWORD}
+      - USER_SERVICE_MONGO_DATABASE=${USER_SERVICE_MONGO_DATABASE}
+      - USER_SERVICE_MONGO_TEST_DATABASE=${USER_SERVICE_MONGO_TEST_DATABASE}
+    ports:
+      - "4001:4001"
+    volumes:
+      - ./user-service:/user-service
+    networks:
+      - app-network
+
+  # timer-service:
+  #   build:
+  #     context: .
+  #     dockerfile: ./timer-service/docker/Dockerfile
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - TIMER_SERVICE_PORT=${TIMER_SERVICE_PORT}
+  #     - TIMER_SERVICE_MONGO_USERNAME=${TIMER_SERVICE_MONGO_USERNAME}
+  #     - TIMER_SERVICE_MONGO_PASSWORD=${TIMER_SERVICE_MONGO_PASSWORD}
+  #     - TIMER_SERVICE_MONGO_DATABASE=${TIMER_SERVICE_MONGO_DATABASE}
+  #     - TIMER_SERVICE_MONGO_TEST_DATABASE=${TIMER_SERVICE_MONGO_TEST_DATABASE}
+  #   ports:
+  #     - "4002:4002"
+  #   volumes:
+  #     - ./timer-service:/timer-service
+  #   networks:
+  #     - app-network
+  #   develop:
+  #     watch:
+  #       - action: sync
+  #         path: ./timer-service
+  #         target: /timer-service
+  #       - action: rebuild
+  #         path: timer-service/package.json
+
+  database:
+    container_name: mongo-user-service
+    image: mongo:latest
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongodb
+      - MONGO_INITDB_ROOT_PASSWORD=mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - data:/data/db
+    networks:
+      - app-network
+
+volumes:
+  data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

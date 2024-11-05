@@ -1,18 +1,18 @@
 FROM node:alpine
 
-WORKDIR /api
+WORKDIR /user-service
 
-COPY ./api/package.json ./
+COPY ./package.json ./
 
 RUN npm install --ignore-scripts
 
-COPY ./api .
+COPY ./ .
 
 RUN npm run build
 
 ENV TZ=Europe/Paris
 
-EXPOSE 4000
+EXPOSE 4001
 
 USER node
 
